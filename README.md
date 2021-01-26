@@ -14,7 +14,9 @@ The constructor of TradeAssistant can connect with data source, like yahoo finan
 And the output is a list which contains two elements. The first one is a dictionary, which has symbol as key and time series data as value. The second one is a list and each element is a time series data. An example about downloading Tesla, Facebook, Netflix, Amazon and Google daily data from 01/01/18 to 07/01/20 is shown below.
 
 Input: 
+
 L_symbol = ["TSLA", "FB", "NFLX", "AMZN", "GOOG"]
+
 TA = TradeAssistant(L_symbol=L_symbol, start=dt.datetime(2018, 1, 1), end=dt.datetime(2020, 7, 1))
 
 Output: [a_dictionary, a_list]
@@ -41,9 +43,13 @@ Step 2 (Get max drawdown and its start index and end index):
 There are two inputs in this step. The first one is the original time series and the second one is the cumulative max series. To get the drawdown series, we just need to divide the original time series by the cumulative max series and minus one. Then, we need to find the minimal value among the drawdown series and the start and end index for the max drawdown period. For example,
 
 Input1: [ 10,       9,       8,       9,      12    ]
+
 Input2: [[10, 0], [10, 0], [10, 0], [10, 0], [12, 4]]
+
 drawdown series: 
+
        [   0,     -10%,    -20%,    -10%,      0    ]
+	   
 Output [start_index, end_index, mdd]: [0, 2, -20%] 
 
 #### 1.3. Illustrative Output of Divide and Conquer
@@ -97,15 +103,20 @@ def get_mdd_between(self, L_cummax, a_begin, an_end):
 This part is built to call function get_mdd for multiple inputs in parallel. It takes two parameters. The first one is a function and the second one is a list, in which each element should be the input of the function. The output will be list and each element in it is the result of the element in the second parameter. Because the symbol is important as well, the output will add the symbol at the end of each element. For example,
 
 Input1: self.get_mdd
+
 Input2: [[10, 9, 8, 9, 12], [10, 9, 8, 9, 12]]
+
 	       Asset1                 Asset2
+		   
 Output: [[0, 2, -20%, “Asset1”], [0, 2, -20%, “Asset2”]] 
 
 #### 1.6. Merge Sort
 After getting max drawdown results for each asset, this part is used to sort the output from multithreading based on the max drawdown value. This part needs two inputs. The first one the output list from the multithreading and the second is the index of max drawdown. In the previous example, [0, 2, -20%, “Asset1”], the second input is 2. Here is an I/O example,
 
 Input1: [[0, 3, -10%, “Asset1”], [1, 3, -20%, “Asset2”], [2, 3, -30%, “Asset3”]]
+
 Input2: 2
+
 Output: [[2, 3, -30%, “Asset3”], [1, 3, -20%, “Asset2”], [0, 3, -10%, “Asset1”]]
 
 #### 1.7. Illustrative Output of Multithreading and Merge Sort
@@ -171,14 +182,18 @@ def merge_sort(self, a_list, col):
 
 #### 1.10. Greedy Algorithm: Max Profit
 A function named max_profit is built to find the maximal profit ratio that can be obtained. It takes only one input, which is a time series or a list. The output is a percentage showing the maximal profit ratio based on the first-day price. In the example below, the max profit, 4, can be made when we buy at 8 and sell at 12.
+
 Input: [10,          9,         8,          9,        12     ]
+
 Output (max_profit / first-day price): 4 / 10 = 40%
 
 The function get_max_profit is the part using greedy algorithm. Greedy algorithm is very important here because it can optimize the problem with an O(n) solution. It transforms the problem of finding max profit to adding all the positive price differences. Otherwise, the brute force solution will consider all the possible situations to keep cash or hold a stock on each day, which will be an O(2^n) solution. 
 
 #### 1.11. Dynamic Programming: Max Profit with Transaction Fee
 Then, we built max_profit_with_transactionfee to get the maximal profit ratio with an additional transaction fee for each transaction. It takes two inputs. The first one is a time series or a list and the second one, is a positive number. The output is a percentage similar to the max_profit. In the example below, the max profit should be 2, which can be made when we buy at 8 and sell at 12 and we also need to pay 2 as transaction fee for one transaction.
+
 Input: ts = [10,          9,         8,          9,        12     ]; fee = 2
+
 Output ((max_profit – fee) / first-day price): (4 – 2) / 10 = 20%
 
 Dynamic programming is used in the get_max_profit_with_transactionfee. On each day, there are only two situations, which are keeping cash or holding a stock, and its profits can be transmitted from the previous day’s profits. So, we can use dynamic programming to record the profits of the two situations day by day and take the profits as knownS. When we know the knownS on the last day, then the return result should be the keeping cash profit of knownS.
@@ -232,20 +247,31 @@ Minimal spanning tree is very useful to build the stocks’ correlation network 
 PortfolioAssistant takes three inputs, which are a list of stock symbols and start and end date times. The output will be a tree. Each row is an edge, which contains two stocks, and the weight.
 
 Input: 
+
 L_symbol = ["TSLA", "FB", "V", "JPM", "WORK", "UNH", "BABA", "MCD", "NKE"],
+
 start=dt.datetime(2018, 1, 1), 
+
 end=dt.datetime(2020, 7, 1)
 
 
 Output: 
 The correlated stock network is listed below:
+
 V -- JPM == 0.73893
+
 V -- NKE == 0.78365
+
 V -- MCD == 0.80563
+
 V -- UNH == 0.83341
+
 FB -- V == 0.85661
+
 V -- BABA == 0.91386
+
 TSLA -- V == 1.07146
+
 WORK -- BABA == 1.17362
 
 #### 2.3. Code for Minimal Spanning Tree
@@ -354,23 +380,36 @@ Saving cost is very important in foreign exchange trading, so it is necessary to
 CurrencyMarketAssistant takes three inputs, which are a list of currency symbols, a date time and the index of source currency. The output is a list of costs.
 
 Input: 
+
 L_symbol = ["JPY", "AUD", "CAD", "GBP", "USD", "HKD", "CHF"],
+
 date=dt.datetime(2020, 7, 30),
+
 source=0
 
 
 Output: 
+
 The minimal cost path for JPY are listed: 
+
 To:  Cost
+
 JPY 0.00000
+
 AUD 1.87749
+
 CAD 1.89242
+
 GBP 2.13780
+
 USD 2.01981
+
 HKD 1.13064
+
 CHF 1.06149
 
 #### 3.3. Code for SHORTEST PATH Tree
+```
 class Graph_SPT():
 
     def __init__(self, num_vertex):
@@ -428,9 +467,11 @@ class Graph_SPT():
         # Sd: return_result contains all nodes reachable from src
         return_result = dist
         return return_result
+```
 
 ### 4. Reference
-(1) Rešovský, Marcel, Denis Horváth, Vladimír Gazda, and Marianna Siničáková. "Minimum spanning tree application in the currency market." Biatec 21, no. 7 (2013): 21-23.
-(2) Esfahanipour, A., and S. E. Zamanzadeh. "A stock market filtering model based on minimum spanning tree in financial networks." AUT Journal of Modeling and Simulation 45, no. 1 (2015): 67-75.
+* Rešovský, Marcel, Denis Horváth, Vladimír Gazda, and Marianna Siničáková. "Minimum spanning tree application in the currency market." Biatec 21, no. 7 (2013): 21-23.
+
+* Esfahanipour, A., and S. E. Zamanzadeh. "A stock market filtering model based on minimum spanning tree in financial networks." AUT Journal of Modeling and Simulation 45, no. 1 (2015): 67-75.
 
 
