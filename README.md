@@ -63,7 +63,10 @@ The two data points can be visualized below and it is obvious to confirm that th
 ```
 # Step 1
 def get_cummax(self):
-    i, i_max = 0, 0
+"""
+Intent: get a cumulative max series and index of max.
+"""    
+	i, i_max = 0, 0
     returnL = []
     cur_max = self.ts[i]
     while i < len(self.ts):
@@ -77,7 +80,10 @@ def get_cummax(self):
 
 # Step 2: Divide and Conquer
 def get_mdd_between(self, L_cummax, a_begin, an_end):
-    returnL = [None] * 3
+"""
+Intent: find the minimal value among a drawdown series and the start and end index of the max drawdown using divide and conquer
+"""
+	returnL = [None] * 3
 
     if a_begin == an_end: # immediately satisfy all postconditions
         returnL[0] = L_cummax[a_begin][1]
@@ -128,7 +134,10 @@ From the Tesla, Facebook, Netflix, Amazon and Google example, the results are pl
 #### 1.8. Code for Multithreading
 ```
 def do_multithreading(self):
-    with concurrent.futures.ThreadPoolExecutor() as executor:
+"""
+intent: get max drawdown results for multiple time series using multithreading
+"""
+	with concurrent.futures.ThreadPoolExecutor() as executor:
         results_ = executor.map(self.get_mdd, self.L_ts)
 
         return_L_mdd = []
@@ -142,6 +151,9 @@ def do_multithreading(self):
 #### 1.9. Code for Merge Sort
 ```
 def merge_sort(self, a_list, col):
+"""
+intent: a_list is a list in which each element is a list, this function will sort the a_list based on a certain element is the list element, which refers to a_list[i][col] for i in [0, len(a_list) - 1]
+"""
     if len(a_list) > 1:
 
         mid = int(len(a_list) / 2)
@@ -205,6 +217,9 @@ Dynamic programming is used in the get_max_profit_with_transactionfee. On each d
 #### 1.13. Code for Greedy Algorithm
 ```
 def get_max_profit(self, ts):
+"""
+intent: get the maximal profit that can be made by making transactions based on a time series stock price data, there is no limit on the number transactions, but you can only hold one share of stock or cash at any time
+"""
     if len(ts) == 0:
         return 0
 
@@ -220,6 +235,9 @@ def get_max_profit(self, ts):
 #### 1.14. Code for Dynamic Programming
 ```
 def get_max_profit_with_transactionfee(self, ts):
+"""
+intent: get the maximal profit that can be made by making transactions based on a time series stock price data, you can only hold one share of stock or cash at any time and you need to pay a transaction fee for each transaction, buy and then sell refer to one transaction.
+"""
     if len(ts) == 0:
         return 0
 
@@ -286,23 +304,12 @@ class Graph_MST():
 
     def addEdge(self, u, v, w):
     # intent: add edge to self.graph
-    # Pre1: u and v are non-negative integers, w is a non-negative number
-    # e.g. [u, v, w] = [0, 1, 0.5], in which u is node 0, v is node 1 and their edge weight is 0.5
-    # Pre2: u != v
-    # Post1: self.graph is a list of edges, which is defined as [u, v, w]
 
         self.graph.append([u, v, w])
 
     def findParent(self, parent, i):
     # intent: find root parent node of node i
-    # Pre1: parent is a list of |V| integers and its range is among [0, len(parent))
-    # e.g. parent[i] is a node index, which is the parent node of node i
-    # Pre2: i is among [0, len(parent))
-    # Post1: for final return_result, parent[return_result] = return_result 
 
-        # Sa: if parent of node i is not i
-        # XOR
-        # i is returned
         if parent[i] == i:
             return i
 
@@ -311,19 +318,11 @@ class Graph_MST():
 
     def union(self, parent, rank, x, y):
     # intent: union two nodes through setting one as the other's parent
-    # Pre1: parent is a list of integers and its range is among [0, len(parent))
-    # Pre2: rank a list of integers and its range is among [0, len(parent))
-    # e.g. rank[2] = 3 means the node 2 has 3 nodes as children
-    # Pre3: x, y are integers among [0, len(parent)) and x != y
-    # Post1: x_root becomes the parent of y_root xor y_root becomes the parent of x_root
 
         # Sa: find the root parent node for node x and y
         x_root = self.findParent(parent, x)
         y_root = self.findParent(parent, y)
 
-        # Sb: compare rank[x_root] and rank[y_root] and the bigger one becomes the parent of the other one
-        # XOR
-        # if two ranks are equal, set y_root as the parent
         if rank[x_root] > rank[y_root]:
             parent[y_root] = x_root
             rank[x_root] += 1
@@ -333,10 +332,6 @@ class Graph_MST():
 
     def kruskalMST(self):
     # intent: find MST for an undirected graph using Kruskal
-    # Pre1: self.graph is a list of edges and each edge is defined as [u, v, w]
-    # Post1: return_result is a tree, containing (num_vertex - 1) edges
-    # Post2: all vertices of self.graph are included in return_result
-    # Post3: edges in return_result are sorted
 
         return_result = []
         parent = [i for i in range(self.v)] # Initializing parent, each vertex is the root parent of itself
@@ -348,10 +343,6 @@ class Graph_MST():
         # Sa: all edges in self.graph is sorted based on its w
         self.graph = sorted(self.graph, key=lambda edge: edge[2])
 
-        # Sb: there are (num_vertex - 1) edges in return_result
-        # XOR
-        # return_result is a forest of parts of an self.graph MST,
-        # add an edge with minimal w that doesn’t create a cycle to return_result 
         while e < self.v - 1:
 
             u, v, w = self.graph[i]
@@ -420,13 +411,6 @@ class Graph_SPT():
 
     def minDist(self, dist, sptSet):
     # intent: search and add the shortest distance edge out of SPT
-    # Pre1: dist is a list of |V| non-negative numbers
-    # e.g. dist[1] = 2 means the shortest distance from source to node 1 is 2
-    # Pre2: sptSet is a list of |V| booleans
-    # e.g. sptSet[1] = False means node 1 is not in SPT
-    # Post1: min_index is the node has the shortest distance to SPT
-    # Post2: min_index is added to SPT 
-
 
         min_index = -1 # Initializing node min_index
         min_ = float("Inf") # Initializing the shortest distance
@@ -441,11 +425,6 @@ class Graph_SPT():
 
     def DijkstraSPT(self, src):
     # intent: find SPT for a directed self.graph from source src using Dijkstra
-    # Pre1: src is an integer among [0, |V|)
-    # Pre2: self.graph is a matrix and each element is a non-negative number
-    # e.g. self.graph[2][3] = 1 means the distance from node 2 to 3 is 1
-    # Post1: return_result is dist, which contains the shortest distance from src to each node
-    # Post2: all nodes's distances are included in return_result
 
         # Sa: The distance of each node in dist  = cost of cheapest path to it from src
         dist = [float("Inf")] * self.v # Initialize dist with infinite distance
@@ -461,7 +440,6 @@ class Graph_SPT():
 
             # Sc: update dist[v] if any node v can minimize dist[v] with (dist[u] + weight(u, v)) 
             for v in range(self.v):
-                # pdb.set_trace()
                 if self.graph[u][v] != 0 and sptSet[v] == False and (dist[u] + self.graph[u][v] < dist[v]):
                     dist[v] = dist[u] + self.graph[u][v]
 
