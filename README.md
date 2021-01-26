@@ -48,8 +48,8 @@ Input2: [[10, 0], [10, 0], [10, 0], [10, 0], [12, 4]]
 
 drawdown series: 
 
-       [   0,     -10%,    -20%,    -10%,      0    ]
-	   
+[   0,     -10%,    -20%,    -10%,      0    ]
+
 Output [start_index, end_index, mdd]: [0, 2, -20%] 
 
 #### 1.3. Illustrative Output of Divide and Conquer
@@ -106,7 +106,7 @@ Input1: self.get_mdd
 
 Input2: [[10, 9, 8, 9, 12], [10, 9, 8, 9, 12]]
 
-	       Asset1                 Asset2
+              Asset1                 Asset2
 		   
 Output: [[0, 2, -20%, “Asset1”], [0, 2, -20%, “Asset2”]] 
 
@@ -204,6 +204,7 @@ Dynamic programming is used in the get_max_profit_with_transactionfee. On each d
 
 #### 1.13. Code for Greedy Algorithm
 ```
+def get_max_profit(self, ts):
     if len(ts) == 0:
         return 0
 
@@ -373,7 +374,7 @@ class Graph_MST():
 
 ### 3. CurrencyMarketAssistant
 
-#### 3.1. SHORTEST PATH Tree
+#### 3.1. Shortest Path Tree
 Saving cost is very important in foreign exchange trading, so it is necessary to know the cheapest way to trade. If we want to exchange from one currency to another, shortest path tree will be very useful because you can determine the begin currency and know the cheapest cost to each other currency. Dijkstra algorithm is used here because it is more efficient, which is O(|V|log|V|). However, Dijkstra algorithm can not handle negative edge weights. So, if the edge weights may be negative, we should use Bellman-Ford algorithm. This is because it can identify negative cycle.
 
 #### 3.2. Illustrative Output
@@ -408,7 +409,7 @@ HKD 1.13064
 
 CHF 1.06149
 
-#### 3.3. Code for SHORTEST PATH Tree
+#### 3.3. Code for Shortest Path Tree
 ```
 class Graph_SPT():
 
