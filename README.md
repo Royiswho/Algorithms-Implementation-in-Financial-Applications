@@ -81,7 +81,8 @@ Intent: get a cumulative max series and index of max.
 # Step 2: Divide and Conquer
 def get_mdd_between(self, L_cummax, a_begin, an_end):
 """
-Intent: find the minimal value among a drawdown series and the start and end index of the max drawdown using divide and conquer
+Intent: find the minimal value among a drawdown series and the start 
+and end index of the max drawdown using divide and conquer
 """
 	returnL = [None] * 3
 
@@ -152,7 +153,9 @@ intent: get max drawdown results for multiple time series using multithreading
 ```
 def merge_sort(self, a_list, col):
 """
-intent: a_list is a list in which each element is a list, this function will sort the a_list based on a certain element is the list element, which refers to a_list[i][col] for i in [0, len(a_list) - 1]
+intent: a_list is a list in which each element is a list, this function will 
+sort the a_list based on a certain element is the list element, 
+which refers to a_list[i][col] for i in [0, len(a_list) - 1]
 """
     if len(a_list) > 1:
 
@@ -218,7 +221,9 @@ Dynamic programming is used in the get_max_profit_with_transactionfee. On each d
 ```
 def get_max_profit(self, ts):
 """
-intent: get the maximal profit that can be made by making transactions based on a time series stock price data, there is no limit on the number transactions, but you can only hold one share of stock or cash at any time
+intent: get the maximal profit that can be made by making transactions based on 
+a time series stock price data, there is no limit on the number transactions, 
+but you can only hold one share of stock or cash at any time
 """
     if len(ts) == 0:
         return 0
@@ -236,7 +241,9 @@ intent: get the maximal profit that can be made by making transactions based on 
 ```
 def get_max_profit_with_transactionfee(self, ts):
 """
-intent: get the maximal profit that can be made by making transactions based on a time series stock price data, you can only hold one share of stock or cash at any time and you need to pay a transaction fee for each transaction, buy and then sell refer to one transaction.
+intent: get the maximal profit that can be made by making transactions based on 
+a time series stock price data, you can only hold one share of stock or cash at any time and 
+you need to pay a transaction fee for each transaction, buy and then sell refer to one transaction.
 """
     if len(ts) == 0:
         return 0
