@@ -3,6 +3,9 @@
 ## Use many different popular algorithms to develop 3 financial applications: TradeAssistant, PortfolioAssistant, CurrencyMarketAssistant
 ## Algorithms include: divide and conquer, sorting, multithreading, greedy algorithms, dynamic programming, Dijkstra shortest path tree, and Kruskal minimal spanning tree.
 
+### author: Yi Rong
+### date: 01/27/20
+---
 ### 1. TradeAssistant
 
 #### 1.1. TradeAssistant Data Source
